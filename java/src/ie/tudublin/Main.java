@@ -19,6 +19,13 @@ public class Main
 	{
 		// Put your code here
 		System.out.println("cats are from space");
+		Cat Ginger = new Cat("Ginger");
+		while (Ginger.numLives>0)
+		{
+			Ginger.kill();
+		}
+		System.out.println("dead");
+		
 	}
 	
 	public static void main(String[] args)
