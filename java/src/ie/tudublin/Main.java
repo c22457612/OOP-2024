@@ -22,7 +22,7 @@ public class Main
 		lucy.speak();
 	}
 
-	public void doCatStuff()
+	/*public void doCatStuff()
 	{
 		// Put your code here
 		System.out.println("cats are from space");
@@ -33,7 +33,7 @@ public class Main
 		}
 		System.out.println("dead");
 		
-	}
+	}*/
 	
 	public static void main(String[] args)
 	{
@@ -44,7 +44,7 @@ public class Main
 
 		m.doDogStuff();
 
-		m.doCatStuff();
+		//m.doCatStuff();
 
 		Dog nuala = new Dog("Nuala");
 		nuala.speak();
@@ -60,7 +60,7 @@ public class Main
 		larry.speak();
 
 		Animal a = new Dog("A");
-		Animal b = new Dog("B");
+		//Animal b = new Dog("B");
 		Animal c = a;
 		a.setName("G");
 

@@ -11,22 +11,6 @@ public class HelloProcessing extends PApplet
 	}
 
 	public void setup() {
-		colorMode(HSB);
-		background(0);
-
-		x1 = random(0, width);
-		x2 = random(0, width);
-		y1 = random(0, height);
-		y2 = random(0, height);
-
-		float range = 5;
-
-		x1dir = random(-range, range);
-		x2dir = random(-range, range);
-		y1dir = random(-range, range);
-		y2dir = random(-range, range);
-
-		smooth();
 		
 	}
 
@@ -36,32 +20,24 @@ public class HelloProcessing extends PApplet
 	
 	public void draw()
 	{	
-		strokeWeight(2);
-		stroke(c, 255, 255);
-		c = (c + 1f) % 255;
-		line(x1, y1, x2, y2);
+		background(255,10,140);
+		fill(0, 255, 0);
+		circle(250,255,255);
+		fill(255, 255, 255);
+		triangle(250, 50, 100, 350, 400, 350);
+		fill(255, 0, 255);
+		ellipse(250,220,200,80);//cx,cy
+		fill(0, 0, 0);
+		circle(250,220,50);
+		/*background(255,0,0);
+		stroke(0,255,0);
+		line (10,10,100,100);//x1,y1,x2,y2
+		fill(GRAY);
+		ellipse(200,90,80,200);//cx,cy
+		circle(200,300,80);
+		fill(90,78,88);
+		rect(400,380,50,100);//x,y,w,h
+		triangle(10,200,200,200,300,300);*/
 
-		x1 += x1dir;
-		x2 += x2dir;
-		y1 += y1dir;
-		y2 += y2dir;
-		
-		if (x1 < 0 || x1 > width)
-		{
-			x1dir = - x1dir;
-		}
-		if (y1 < 0 || y1 > height)
-		{
-			y1dir = - y1dir;
-		}
-
-		if (x2 < 0 || x2 > width)
-		{
-			x2dir = - x2dir;
-		}
-		if (y2 < 0 || y2 > height)
-		{
-			y2dir = - y2dir;
-		}
 	}
 }
