@@ -19,10 +19,12 @@ public class BugZap extends PApplet {
 	int score=0;
 	float bugYIncrement=1;
 	float bugXIncrement=150;
+	boolean spaceKeyPressed = false;
 	boolean gameOver=false;
 	boolean splashScreen=true;
 	Minim minim;
 	AudioPlayer laserSound;
+
 
 	public void settings() {
 		size(1000, 1000);
@@ -145,10 +147,14 @@ public class BugZap extends PApplet {
 			if (key == ' ')
 			{
 				System.out.println("SPACE key pressed");
+				spaceKeyPressed = true;
 				drawLaser(playerX,playerY);
 				laserSound.rewind(); // Rewind the sound file to the beginning
       			laserSound.play();
-
+			}
+			else
+			{
+				spaceKeyPressed = false;
 			}
 		}
 
