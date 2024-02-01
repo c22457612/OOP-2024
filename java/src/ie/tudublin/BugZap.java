@@ -2,6 +2,8 @@ package ie.tudublin;
 
 import processing.core.PApplet;
 
+import ddf.minim.*;
+
 public class BugZap extends PApplet {
 	float playerX;
 	float playerY;
@@ -19,7 +21,8 @@ public class BugZap extends PApplet {
 	float bugXIncrement=150;
 	boolean gameOver=false;
 	boolean splashScreen=true;
-
+	Minim minim;
+	AudioPlayer laserSound;
 
 	public void settings() {
 		size(1000, 1000);
@@ -34,6 +37,8 @@ public class BugZap extends PApplet {
 	bugX=random(100,900);
 	bugY=height/100;
 	bugWidth=70;
+	minim = new Minim(this);
+   	laserSound = minim.loadFile("data/laser_sound.wav"); 
 	}
 
 	
@@ -73,7 +78,7 @@ public class BugZap extends PApplet {
 			fill(255, 255, 255);
 			triangle(x, y - 40,x - 30, y + 20,x + 30, y + 20);
 			fill(255, 0, 255);
-			ellipse(x, y - 10, 70, 30);
+			ellipse(x, y - 10, 60, 30);
 			fill(0, 0, 0);
 			ellipse(x, y - 10, 20, 20);
 
@@ -141,6 +146,8 @@ public class BugZap extends PApplet {
 			{
 				System.out.println("SPACE key pressed");
 				drawLaser(playerX,playerY);
+				laserSound.rewind(); // Rewind the sound file to the beginning
+      			laserSound.play();
 
 			}
 		}
@@ -168,6 +175,7 @@ public class BugZap extends PApplet {
 		{
 			background(0);
 			textSize(17);
+			fill(255);
 			text("Score:",25,15);
 			text(score,60,15);
 			stroke(0,0,255);
@@ -215,5 +223,11 @@ public class BugZap extends PApplet {
 		
 		score++;
 	}
+
+	public void stop() {
+		laserSound.close();
+		minim.stop();
+		super.stop();
+	 }
 	
 }
