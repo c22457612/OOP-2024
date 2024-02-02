@@ -3,6 +3,8 @@ package ie.tudublin;
 import processing.core.PApplet;
 
 import ddf.minim.*;
+import ddf.minim.analysis.BeatDetect;
+import ddf.minim.analysis.FFT;
 
 public class BugZap extends PApplet {
 	float playerX;
@@ -24,6 +26,9 @@ public class BugZap extends PApplet {
 	boolean splashScreen=true;
 	Minim minim;
 	AudioPlayer laserSound;
+	AudioPlayer fluteSound;
+	BeatDetect beat;
+	FFT fft; //created with the size of the audio buffer and the sample rate of the audio file
 
 
 	public void settings() {
@@ -41,6 +46,11 @@ public class BugZap extends PApplet {
 	bugWidth=70;
 	minim = new Minim(this);
    	laserSound = minim.loadFile("data/laser_sound.wav"); 
+	fluteSound = minim.loadFile("data/scale.wav"); 
+	beat=new BeatDetect();
+	beat.setSensitivity(300); // Adjust the sensitivity based on your audio file
+	fft = new FFT(laserSound.bufferSize(), laserSound.sampleRate()); //size of the audio buffer,sample rate of the audio file
+	fft.linAverages(60); //linear averaging with 60 frequency bands
 	}
 
 	
@@ -53,13 +63,13 @@ public class BugZap extends PApplet {
 		if (bugY>300)
 		{
 			bugYIncrement=2;
-			System.out.println("bug is fast");
+			//System.out.println("bug is fast");
 			//System.out.println(bugY); debugging
 		}
 		else
 		{
 			bugYIncrement=1;
-			System.out.println("bug is slow");
+			//System.out.println("bug is slow");
 		}
 		if (bugX>950.0)// bug gone too far right
 		{
@@ -98,7 +108,7 @@ public class BugZap extends PApplet {
 		}
 		else
 		{
-			System.out.println("lose");
+			//System.out.println("lose");
 			gameOver=true;
 			//exit();
 		}
@@ -187,6 +197,13 @@ public class BugZap extends PApplet {
 			stroke(0,0,255);
 			drawPlayer(playerX,playerY,playerWidth);
 			drawBug(bugX,bugY,bugWidth);
+
+			beat.detect(laserSound.mix);
+
+			if (beat.isOnset()) {
+				// Do something when a beat is detected, e.g., increase player speed
+				System.out.println("beat detected");
+			}
 		}
 		
 
@@ -201,6 +218,26 @@ public class BugZap extends PApplet {
 			textSize(30);
 			fill(255);
 			text("Your Score: " + score, width / 2, height / 2 + 50);
+			fft.forward(laserSound.mix);
+			if (!fluteSound.isPlaying()) {
+				fluteSound.rewind();
+				fluteSound.play();
+			}
+
+			fft.forward(fluteSound.mix);
+			for (int i = 0; i < fft.specSize(); i++) {
+				float freq = fft.indexToFreq(i);
+				float amplitude = fft.getBand(i);
+				
+				float x1 = map(freq/2, 0, 5000, 0, width*2); // Map frequency to x-coordinate
+				float y1 = height; // Bottom of the screen
+				float x2 = x1; // Same x-coordinate
+				float y2 = map(amplitude, 0, 1, height/2, 0); // Map amplitude to y-coordinate
+
+				stroke(255, 0, 255);
+				line(x1, y1, x2, y2);
+			}
+
 		}
 	}
 
